@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0"/>
+    <title>Puzzle Packed</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        *{
+            touch-action:none;
+        }
+
+        #cvs{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url("images/theme_1_bkg.png");
+            -moz-background-image: url("images/theme_1_bkg.png");
+            -o-background-image: url("images/theme_1_bkg.png");
+            -webkit-background-image: url("images/theme_1_bkg.png");
+        }
+
+        #discount_content{
+            visibility: hidden;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(0,0,0,0.85);
+            color: white;
+        }
+
+        #container{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #discount_images{
+            position: relative;
+            width: 45%;
+            margin: 0 0 40px 0;
+        }
+
+        #discount_images img{
+            border-radius: 20px;
+            width: 100%;
+        }
+
+        #code{
+            font-size: 1.5rem;
+        }
+
+        #discount_codes img{
+            position: relative;
+            top: 2px;
+            width: 15px;
+            height: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="cvs">
+        </canvas>
+        <div id="discount_content" onclick="toDetail()">
+            <div id="discount_images">
+                <img src="images/puzzlepacked_logo.png" alt="placeholder"/>
+            </div>
+            <label id="discount_tips">Use code <span id="code">"PASSED"</span> for 5% off</label>
+        </div>
+    </div>
+    <script>
+        function toDetail() {
+            window.location.href = "https://puzzlepacked.com/products/flowslider"
+        }
+    </script>
+<!--    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>-->
+<!--    <script>-->
+<!--        var vConsole = new window.VConsole();-->
+<!--    </script>-->
+    <script src="js/http_cdn.jsdelivr.net_npm_canvas-confetti@1.5.1_dist_confetti.browser.js"></script>
+    <script src="js/klotski.js"></script>
+    <script>
+        let cvs = document.getElementById("cvs")
+        function win() {
+            confetti();
+        }
+        function showResult(){
+            let content = document.getElementById("discount_content")
+            content.style.visibility = "visible"
+            content.style.opacity = "0"
+            const startTime = Date.now()
+            let id = setInterval(function () {
+                let elapse = Date.now() - startTime
+                let progress = elapse / 2000.0
+                if (progress > 1){
+                    progress = 1
+                    clearInterval(id)
+                }
+                content.style.opacity = progress.toString()
+            }, 1.0 / 60.0)
+        }
+        createKlotSkiGameWithRandom(cvs,function () {
+            setTimeout(win,300)
+            setTimeout(showResult,400)
+        })
+    </script>
+</body>
+</html>
